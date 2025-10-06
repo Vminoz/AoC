@@ -1,0 +1,4 @@
+#!/bin/bash
+
+fileNames=$(python3 -m meta.startday "$@") || { echo "Python script failed"; exit 1; }
+code . $fileNames

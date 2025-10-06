@@ -1,0 +1,8 @@
+repos:
+- repo: local
+  hooks:
+  - id: make-clean
+    name: Run make clean
+    entry: make clean
+    language: system
+    pass_filenames: false 

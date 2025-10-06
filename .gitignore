@@ -1,0 +1,7 @@
+# python stuff
+__pycache__/
+.DS_Store
+.venv/
+
+# all names starting with --
+--*

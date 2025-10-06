@@ -1,0 +1,19 @@
+from common import lines, do_part_on_input
+
+
+def part1(filename: str) -> int:
+    for i, line in enumerate(lines(filename)):
+        for j, c in enumerate(line):
+            pass
+    # sometimes more convenient:
+    # open(filename).read().split("\n")
+    return 0
+
+
+def main():
+    do_part_on_input(1, part1)
+    # do_part_on_input(2, ???)
+
+
+if __name__ == "__main__":
+    main()

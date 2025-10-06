@@ -1,0 +1,22 @@
+#? source me
+
+sol() {
+  file="$1"
+  if [ ! -f "$file" ]; then
+    echo "No such file: $file"
+    echo "Hint: sol <year>/<day>.py args..."
+    return 1
+  fi
+  module="$(echo "$file" | sed 's|/|.|;s|\.py$||')"
+  clear
+  python -m "$module" "${@:2}"
+}
+
+s() {
+  file="2024/$1.py"
+  sol "$file" "${@:2}" || echo "Hint: s <day> args..."
+}
+
+alias doday='make today'
+alias tidy='make clean'
+alias brr='bash ./shell/runall'
