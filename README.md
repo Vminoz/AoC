@@ -1,7 +1,8 @@
 # AOC - Vminoz
 Solutions for [Advent of Code](https://adventofcode.com)
 
-Mainly Python so far, 2023 and 2024 with only standard library and with a total runtime <1min per calendar on my phone.
+Mainly Python so far, 2023 and 2024 with only standard library and with a total runtime < 1min per calendar on my phone.
+2022 had each day in a separate folder instead, the idea was to isolate the days but having common logging and visuals was more fun.
 
 ## Structure
 ```sh
