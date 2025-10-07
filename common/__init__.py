@@ -14,9 +14,6 @@ P = ParamSpec("P")
 # Instantiate logger and input file from cli arguments
 # NOTE: cli arguments are undocumented, .input_parsing and .logging just pick them up
 logger = TheLogger.from_argv()
-input_file = argv_input_file()
-if input_file is None:
-    print("warning: no input file")
 
 
 def skip_part(part) -> bool:
@@ -33,6 +30,7 @@ def do_part_on_input(
     if skip_part(part):
         return
     if not filename:
+        input_file = argv_input_file()
         if input_file is None:
             raise ValueError("no input file")
         logger.d(f"{sol.__name__}('{input_file}')")
@@ -48,6 +46,7 @@ def do_part(part: int, sol: Callable[P, int | str], *args: P.args, **kwargs: P.k
 
 def parse_input_with(parser: Callable[[str], T]) -> T:
     """parser: (filename:str) -> T"""
+    input_file = argv_input_file()
     if input_file is None:
         raise ValueError("no input file")
     return label_call("Parsed", False, False, parser, input_file)
@@ -75,7 +74,6 @@ __all__ = (
     "Ansi",
     "argv_input_file",
     "ANSICODES",
-    "input_file",
     "lines",
     "logger",
     "P2D",

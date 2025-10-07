@@ -10,9 +10,11 @@ from pathlib import Path
 from common.ansi import ITALIC, RED, GREEN, MAGENTA, Ansi
 
 try:
-    SECRETS = json.loads(Path("-secrets.json").read_text())
+    SECRETS = json.loads(Path("--secrets.json").read_text())
 except FileNotFoundError:
-    print("-secrets.json not found!")
+    sys.stderr.write(
+        "--secrets.json not found! Run `make secrets` first and fill it first."
+    )
     sys.exit(1)
 
 COOKIE = SECRETS["COOKIE"]
@@ -106,7 +108,7 @@ def main():
     if not day_info:
         print_err("Failed to fetch info...")
 
-    year_folder = Path(year)
+    year_folder = Path(str(year))
     sol_file = year_folder / f"{day:>02}.py"
     if not sol_file.exists():
         start_content = ""
@@ -116,12 +118,15 @@ def main():
         sol_file.write_text(start_content)
 
     # Personal input
-    problem = year_folder / "inputs" / (f"{day:>02}.txt")
+    inputs = year_folder / "inputs"
+    inputs.mkdir(exist_ok=True)
+
+    problem = inputs / (f"{day:>02}.txt")
     problem.write_text(problem_input_str)
 
     # A bit more tricky to automate getting (e.g. isn't always the first code block),
     #   but just copy when reading instructions
-    sample = year_folder / "inputs" / (f"{day:>02}s.txt")
+    sample = inputs / (f"{day:>02}s.txt")
     sample.write_text(day_info.get("example", ""))
 
     print_info(

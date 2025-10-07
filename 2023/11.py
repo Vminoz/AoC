@@ -1,4 +1,5 @@
-from common import input_file, lines, logger, do_part_on_input
+from common import lines, logger, do_part_on_input
+from common.input_parsing import argv_input_file
 
 
 def stars_dist_bit(filename: str, expansion: int = 2):
@@ -57,7 +58,7 @@ def main():
     if "-b" in argv:
         logger.m("【stars_dist】 uses sets, 【stars_dist_bit】 uses bit masks")
         for f in (stars_dist, stars_dist_bit):
-            logger.bench(f, input_file, _n_runs=50)
+            logger.bench(f, argv_input_file(), _n_runs=50)
     do_part_on_input(1, stars_dist_bit)
     do_part_on_input(2, stars_dist_bit, expansion=1000000)
 

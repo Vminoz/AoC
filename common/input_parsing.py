@@ -1,3 +1,4 @@
+from functools import cache
 import re
 from pathlib import Path
 from sys import argv
@@ -10,6 +11,7 @@ RE_NUM = re.compile(r"-?\d+")
 USE_SMALL_FILE = "-s" in argv
 
 
+@cache
 def argv_input_file() -> str | None:
     if "-i" in argv:
         next_arg = argv.index("-i") + 1

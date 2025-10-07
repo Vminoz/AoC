@@ -17,6 +17,6 @@ s() {
   sol "$file" "${@:2}" || echo "Hint: s <day> args..."
 }
 
-alias doday='make today'
 alias tidy='make clean'
+alias doday='bash ./shell/doday'
 alias brr='bash ./shell/runall'

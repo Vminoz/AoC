@@ -1,4 +1,4 @@
-from common import input_file, lines, logger, do_part_on_input
+from common import argv_input_file, lines, logger, do_part_on_input
 
 
 def bootleg_tsa(filename: str, inplace=True, neg: bool = False):
@@ -38,7 +38,7 @@ def main():
     if "-b" in argv:
         logger.m("【False】 list comp every diff operation, 【True】 mutates the lists")
         for inplace in (True, False):
-            logger.bench(bootleg_tsa, input_file, inplace=inplace)
+            logger.bench(bootleg_tsa, argv_input_file(), inplace=inplace)
     do_part_on_input(1, bootleg_tsa)
     do_part_on_input(2, bootleg_tsa, neg=True)
 
