@@ -1,1 +1,7 @@
-print(next(i+14 for i in range(int(1e100)) if len(set(open("input.txt").read()[i:i+14]))==14))
+print(
+    next(
+        i + 14
+        for i in range(int(1e100))
+        if len(set(open("input.txt").read()[i : i + 14])) == 14
+    )
+)

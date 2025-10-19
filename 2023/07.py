@@ -1,6 +1,6 @@
 from collections import Counter
 
-from common import lines, logger, do_part_on_input
+from common import do_part_on_input, lines, logger
 
 TYPE_STRENGTH = {t: i for i, t in enumerate(["h", "2", "p", "3", "f", "4", "5"])}
 CARD_STRENGTH = {c: i for i, c in enumerate("23456789TJQKA")}

@@ -1,5 +1,6 @@
 from collections.abc import Iterable
-from common import lines, logger, do_part_on_input
+
+from common import do_part_on_input, lines, logger
 
 DIRECTIONS = [-1, -1j, 1, 1j]
 

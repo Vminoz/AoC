@@ -12,7 +12,7 @@
 import re
 from math import prod
 
-from common import lines, do_part_on_input
+from common import do_part_on_input, lines
 
 BAG = {
     "r": 12,

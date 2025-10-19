@@ -1,7 +1,7 @@
 from itertools import product
 from typing import TypeAlias
 
-from common import logger, do_part_on_input, P2D
+from common import P2D, do_part_on_input, logger
 
 Beam: TypeAlias = tuple[int, int, int, int]
 

@@ -1,4 +1,4 @@
-from common import lines, logger, do_part_on_input
+from common import do_part_on_input, lines, logger
 from common.input_parsing import argv_input_file
 
 

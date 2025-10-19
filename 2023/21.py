@@ -1,6 +1,7 @@
-from common import lines, do_part_on_input, logger, P2D
-from common.visuals import p2d_sets_string
 from collections import deque as DQ
+
+from common import P2D, do_part_on_input, lines, logger
+from common.visuals import p2d_sets_string
 
 DIRECTIONS = ((0, 1), (1, 0), (0, -1), (-1, 0))
 

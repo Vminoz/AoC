@@ -30,7 +30,7 @@ def get_tot_calibration_result(
         res = get_res_if_possible(eq, ops)
         tot += res
         if logger.is_verbose:
-            logger.m(f"{'✅' if res else '❌'} {eq[0]}={'█'.join(map(str,eq[1:]))}")
+            logger.m(f"{'✅' if res else '❌'} {eq[0]}={'█'.join(map(str, eq[1:]))}")
     return tot
 
 

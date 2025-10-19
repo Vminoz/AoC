@@ -1,7 +1,10 @@
+from collections import Counter as CT
+from collections import defaultdict as DD
+from collections import deque as DQ
 from pathlib import Path
-from common import logger, P3D, do_part_on_input
 from typing import TypeAlias
-from collections import defaultdict as DD, deque as DQ, Counter as CT
+
+from common import P3D, do_part_on_input, logger
 
 Brick: TypeAlias = tuple[P3D, ...]
 BrickTower: TypeAlias = DD[Brick, tuple[set[Brick], set[Brick]]]

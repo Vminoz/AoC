@@ -1,8 +1,9 @@
-from dataclasses import dataclass
 import re
-from common import lines, do_part_on_input, logger
-from common.maths import F3D, BBox, F2D
+from dataclasses import dataclass
 from itertools import combinations
+
+from common import do_part_on_input, lines, logger
+from common.maths import F2D, F3D, BBox
 
 SMALL_BOX = BBox((7, 7), (27, 27))
 BIG_BOX = BBox((2e14, 2e14), (4e14, 4e14))

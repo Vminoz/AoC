@@ -139,7 +139,7 @@ class TheLogger:
 
     def fmt_ms(self) -> str:
         t = self.ms()
-        return f"{t:.2f} ms" if t < 10_000 else f"{t/1000:.2f}  s"
+        return f"{t:.2f} ms" if t < 10_000 else f"{t / 1000:.2f}  s"
 
     def ms(self) -> float:
         return (perf_counter() - self.start_time) * 1000
@@ -186,14 +186,14 @@ class TheLogger:
         fmt = Ansi.e(BRIGHT_BLUE, ITALIC)
         comma = RST + ", " + fmt
         print(
-            Ansi.fmt(self._ts(f"µ={s/_n_runs:.2f} ms"), [MAGENTA]),
+            Ansi.fmt(self._ts(f"µ={s / _n_runs:.2f} ms"), [MAGENTA]),
             func.__name__ + "(",
             "".join(
                 [
                     fmt,
                     comma.join(a.name if isinstance(a, Path) else str(a) for a in args)
                     + comma * bool(kwargs)
-                    + comma.join(f"{RST+k+fmt}={a}" for k, a in kwargs.items()),
+                    + comma.join(f"{RST + k + fmt}={a}" for k, a in kwargs.items()),
                     RST,
                 ]
             ),

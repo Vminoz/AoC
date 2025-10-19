@@ -1,13 +1,14 @@
 import json
 import re
 import sys
-from urllib.error import HTTPError, URLError
-from urllib.request import urlopen, Request
 import webbrowser
 from argparse import ArgumentParser
 from datetime import datetime
 from pathlib import Path
-from common.ansi import ITALIC, RED, GREEN, MAGENTA, Ansi
+from urllib.error import HTTPError, URLError
+from urllib.request import Request, urlopen
+
+from common.ansi import GREEN, ITALIC, MAGENTA, RED, Ansi
 
 try:
     SECRETS = json.loads(Path("--secrets.json").read_text())

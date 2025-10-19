@@ -1,6 +1,6 @@
 from functools import lru_cache
 
-from common import lines, logger, do_part_on_input
+from common import do_part_on_input, lines, logger
 
 
 def spring_conditions(filename: str, unfold: int = 1) -> int:

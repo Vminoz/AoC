@@ -14,7 +14,6 @@ import numpy as np
 from matplotlib.animation import FuncAnimation
 from tqdm import tqdm
 
-
 StaticBrick: TypeAlias = tuple[tuple[int, int, int], ...]
 
 

@@ -1,7 +1,8 @@
 import random
-from common import do_part_on_input, logger
 from dataclasses import dataclass
 from itertools import count
+
+from common import do_part_on_input, logger
 
 
 @dataclass

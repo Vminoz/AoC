@@ -1,5 +1,5 @@
-from functools import cache
 import re
+from functools import cache
 from pathlib import Path
 from sys import argv
 from typing import Generator

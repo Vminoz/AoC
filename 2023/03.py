@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+
 from common import do_part, lines, logger, parse_input_with
 
 

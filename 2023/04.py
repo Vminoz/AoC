@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-from common import lines, logger, do_part_on_input
+from common import do_part_on_input, lines, logger
 
 
 def cards_reader(file: str):

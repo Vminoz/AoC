@@ -1,8 +1,9 @@
-from math import prod
-from functools import reduce
-from common import lines, logger, do_part_on_input
-from common.maths import lcm
 from collections import deque as DQ
+from functools import reduce
+from math import prod
+
+from common import do_part_on_input, lines, logger
+from common.maths import lcm
 
 
 class Pulser:

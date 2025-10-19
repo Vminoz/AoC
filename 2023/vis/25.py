@@ -5,8 +5,8 @@
 #     "networkx",
 # ]
 # ///
-import networkx as nx
 import matplotlib.pyplot as plt
+import networkx as nx
 
 
 def show_edge_graph(edges: dict[tuple[str, str], int]) -> None:

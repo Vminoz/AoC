@@ -9,7 +9,7 @@
 #    nums, REGEXREPLACE(converted,"[^\d]",""),VALUE(LEFT(nums) & RIGHT(nums))))))
 import re
 
-from common import lines, do_part_on_input
+from common import do_part_on_input, lines
 
 NOT_DIGIT = re.compile(r"[^\d]")
 

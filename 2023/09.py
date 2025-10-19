@@ -1,4 +1,4 @@
-from common import argv_input_file, lines, logger, do_part_on_input
+from common import argv_input_file, do_part_on_input, lines, logger
 
 
 def bootleg_tsa(filename: str, inplace=True, neg: bool = False):

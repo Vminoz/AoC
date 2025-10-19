@@ -1,6 +1,6 @@
 from heapq import heappop
 
-from common import lines, logger, do_part_on_input
+from common import do_part_on_input, lines, logger
 
 
 def turn(d: complex):

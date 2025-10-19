@@ -1,9 +1,9 @@
 from pathlib import Path
 from typing import TypeAlias
 
-from common import logger, do_part_on_input, tuple_ranges, P2D
-from common.visuals import p2d_sets_string, make_polygon_svg
+from common import P2D, do_part_on_input, logger, tuple_ranges
 from common.maths import shoelace_area
+from common.visuals import make_polygon_svg, p2d_sets_string
 
 Plan: TypeAlias = list[tuple[int, int, int]]
 DIRECTIONS = {"R": (0, 1), "D": (1, 0), "L": (0, -1), "U": (-1, 0)}

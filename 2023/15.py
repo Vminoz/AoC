@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-from common import logger, do_part_on_input
+from common import do_part_on_input, logger
 
 
 def apply_wierd_hash(filename: str):

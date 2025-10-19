@@ -1,9 +1,10 @@
-from typing import Literal
-from common import logger, do_part_on_input
-from dataclasses import dataclass
 import re
-from operator import lt, gt
+from dataclasses import dataclass
 from math import prod
+from operator import gt, lt
+from typing import Literal
+
+from common import do_part_on_input, logger
 
 OP = {"<": lt, ">": gt}
 

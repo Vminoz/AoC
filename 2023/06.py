@@ -1,6 +1,6 @@
 from math import ceil, sqrt
 
-from common import lines, logger, do_part_on_input
+from common import do_part_on_input, lines, logger
 
 
 def qraces(filename: str):

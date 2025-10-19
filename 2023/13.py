@@ -1,4 +1,4 @@
-from common import logger, do_part_on_input
+from common import do_part_on_input, logger
 
 
 def find_mirrors(filename: str, smudges: int = 0):
