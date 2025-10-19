@@ -13,7 +13,5 @@ secrets:
 	cp ./-secrets.example.json ./--secrets.json
 
 clean:
-	ruff format                    # fmt
-	ruff check --fix               # lint
-	ruff check --select I --fix .  # isort
-	mypy .                         # types
+	ruff check --extend-select I --fix # lint + isort
+	ruff format                        # fmt

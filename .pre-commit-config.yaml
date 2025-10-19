@@ -1,8 +1,14 @@
 repos:
-- repo: local
-  hooks:
-  - id: make-clean
-    name: Run make clean
-    entry: make clean
-    language: system
-    pass_filenames: false 
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.1
+    hooks:
+      - id: ruff-check # lint
+        args: [--extend-select, I, --fix]
+      - id: ruff-format # format
+
+  - repo: local
+    hooks:
+      - id: mypy
+        name: Run mypy
+        entry: mypy
+        language: system
