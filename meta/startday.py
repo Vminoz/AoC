@@ -10,29 +10,44 @@ from urllib.request import Request, urlopen
 
 from common.ansi import GREEN, ITALIC, MAGENTA, RED, Ansi
 
-try:
-    SECRETS = json.loads(Path("--secrets.json").read_text())
-except FileNotFoundError:
-    sys.stderr.write(
-        "--secrets.json not found! Run `make secrets` first and fill it first."
-    )
-    sys.exit(1)
-
-COOKIE = SECRETS["COOKIE"]
-LEADERBOARD_ID = SECRETS["LEADERBOARD_ID"]
-TEMPLATE = Path("meta/template.py.tt").read_text()
-
-URL = "https://adventofcode.com/"
-RE_DAY_TITLE = re.compile(r"--- .*? ---")
-
 
 def print_info(msg: str):
     """Print message to stderr as to not pipe to stdout"""
+    sys.stderr.write(Ansi.fmt(f"{msg}", [MAGENTA]))
+
+
+def print_success(msg: str):
     sys.stderr.write(Ansi.fmt(f"✅ {msg}\n", [GREEN]))
 
 
 def print_err(msg: str):
     sys.stderr.write(Ansi.fmt(f"❌ {msg}\n", [RED]))
+
+
+URL = "https://adventofcode.com/"
+
+SECRETS_FILE = Path("--secrets.json")
+
+if not SECRETS_FILE.exists():
+    print_info(
+        f"No {SECRETS_FILE!s} found, create interactively by opening your browser? [y]/n\n → "
+    )
+    if input().lower() not in ("y", ""):
+        sys.exit(1)
+    webbrowser.open(URL)
+    print_info(
+        "Navigate to an inputs page and check your request header for Cookie 'session'\n"
+        " → session="
+    )
+    cookie = input().strip()
+    SECRETS_FILE.write_text(json.dumps({"COOKIE": cookie}, indent=2))
+
+SECRETS = json.loads(SECRETS_FILE.read_text())
+COOKIE = SECRETS["COOKIE"]
+LEADERBOARD_ID = SECRETS.get("LEADERBOARD_ID", "")
+TEMPLATE = Path("meta/template.py.tt").read_text()
+
+RE_DAY_TITLE = re.compile(r"--- .*? ---")
 
 
 def get_input_web(year: int, day: int) -> str:
@@ -88,7 +103,8 @@ def main():
         default=datetime.today().day,
     )
     parser.add_argument(
-        "--year",
+        "year",
+        nargs="?",
         type=int,
         help="year of date, defaults to current year.",
         default=datetime.today().year,
@@ -130,11 +146,10 @@ def main():
     sample = inputs / (f"{day:>02}s.txt")
     sample.write_text(day_info.get("example", ""))
 
-    print_info(
+    print_success(
         f"Created files for day {day}\n"
-        "ℹ️ Outputting files below, can be opened quickly by"
-        " e.g. passing as input to code:\n"
-        + Ansi.fmt("code . (...)", [ITALIC, MAGENTA])
+        "ℹ️ Writing filenames to stdout for so they can be passed to an editor"
+        " e.g. " + Ansi.fmt("code . (...)", [ITALIC, MAGENTA])
     )
     print(f"{sol_file.absolute()} {problem.absolute()} {sample.absolute()}")
 
