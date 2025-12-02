@@ -1,3 +1,5 @@
+"""--- Day 1: Secret Entrance ---"""
+
 from common import lines, do_part_on_input, logger
 
 
