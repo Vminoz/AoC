@@ -1,6 +1,6 @@
 """--- Day 1: Secret Entrance ---"""
 
-from common import lines, do_part_on_input, logger
+from common import do_part_on_input, lines, logger
 
 
 def count_zeros(filename: str, add_laps: bool = False) -> int:
