@@ -65,10 +65,10 @@ def get_input_web(year: int, day: int) -> str:
     return ""
 
 
-def extract_info(day: int) -> dict[str, str]:
+def extract_info(year: int, day: int) -> dict[str, str]:
     info = {}
     headers = {"cookie": "session=" + COOKIE}
-    input_getter = URL + f"day/{day}"
+    input_getter = URL + f"{year}/day/{day}"
     anchor = "example:</p>\n<pre><code>"
     anchor_end = "</code></pre>"
     request = Request(input_getter, headers=headers)
@@ -121,7 +121,7 @@ def main():
     if not problem_input_str:
         print_err(f"Failed to fetch input for day {day}")
         sys.exit(1)
-    day_info = extract_info(day)
+    day_info = extract_info(year, day)
     if not day_info:
         print_err("Failed to fetch info...")
 

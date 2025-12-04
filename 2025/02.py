@@ -1,4 +1,4 @@
-"""--- Day 2: I Was Told There Would Be No Math ---"""
+"""--- Day 2: Gift Shop ---"""
 
 from pathlib import Path
 
