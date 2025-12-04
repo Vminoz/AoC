@@ -12,7 +12,7 @@ Grid: TypeAlias = list[list[bool]]
 def parse_rolls(filename: str) -> Grid:
     grid = []
     for line in lines(filename):
-        row = []
+        row: list[bool] = []
         grid.append(row)
         for c in line.strip():
             row.append(c == "@")
