@@ -1,7 +1,7 @@
 .PHONY: install shortcut today clean secrets
 
 install:
-	@pre-commit install || echo "hint:\n\nuv tool install pre-commit"
+	@prek install || echo "hint:\n\nuv tool install prek"
 
 shortcut:
 	@echo "alias aoc='cd "'"'$(shell pwd)'"'" && source ./shell/aliases'"
