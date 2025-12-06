@@ -58,4 +58,5 @@ sol <day> -v -c -I
 ```
 
 ## {year}/vis
-These scripts have their dependencies listen with [Inline script metadata](https://peps.python.org/pep-0723/). Run them with `uv run`.
+These scripts have their dependencies listed with [Inline script metadata](https://peps.python.org/pep-0723/).
+Run them with `uv run`.
