@@ -57,6 +57,6 @@ sol <day> -v -c -I
 # -I:interactive
 ```
 
-## {year}/vis
+##### {year}/vis
 These scripts have their dependencies listed with [Inline script metadata](https://peps.python.org/pep-0723/).
-Run them with `uv run`.
+Run them with `uv run {year}/vis/{day}.py`.

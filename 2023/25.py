@@ -1,6 +1,7 @@
 import random
 from dataclasses import dataclass
 from itertools import count
+from pathlib import Path
 
 from common import do_part_on_input, logger
 
@@ -89,6 +90,11 @@ class Graph:
     def cluster_sizes(self) -> list[int]:
         return [len(g) for g in self.groups.values()]
 
+    def save_edges(self, to_file: Path):
+        to_file.write_text(
+            "\n".join(f"{e[0]}-{e[1]}-{w}" for e, w in self.edges.items())
+        )
+
 
 def sorted_pair(a, b):
     return (a, b) if a < b else (b, a)
@@ -96,6 +102,8 @@ def sorted_pair(a, b):
 
 def cut_3_group_size_checksum(filename: str, known_minimum: int = 3):
     graph = Graph.from_string(open(filename).read())
+    graph.save_edges(Path(__file__).parent / "vis" / "--25.txt")
+
     logger.v(graph)
     edge_count = graph.n_edges()
 

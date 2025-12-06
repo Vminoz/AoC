@@ -81,20 +81,24 @@ def create_graph(name: str, gates: list[tuple[str, str, str, str]]) -> graphviz.
     return dot
 
 
+def render_graph(g: graphviz.Digraph, to: Path):
+    print(f"Overwriting {to}")
+    g.render(to, format="svg", cleanup=True)
+
+
 def main():
     # NOTE: run 24.py first for the fixed circuit
     wd = Path(__file__).parent
     # Read both circuits
     orig_gates = read_circuit(wd / ".." / "inputs" / "24.txt")
-    fixed_gates = read_circuit(wd / "--24.txt")
-
+    fixed_gates = read_circuit(wd / "24.txt")
     # Create visualizations
     orig_graph = create_graph("original", orig_gates)
     fixed_graph = create_graph("fixed", fixed_gates)
 
     # Save to files
-    orig_graph.render(wd / "24-original", format="svg", cleanup=True)
-    fixed_graph.render(wd / "24-fixed", format="svg", cleanup=True)
+    render_graph(orig_graph, wd / "24-original")
+    render_graph(fixed_graph, wd / "24-fixed")
 
 
 if __name__ == "__main__":

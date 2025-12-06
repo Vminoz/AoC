@@ -1,9 +1,9 @@
 # /// script
 # requires-python = ">=3.12"
 # dependencies = [
-#     "matplotlib",
-#     "numpy",
-#     "tqdm",
+#     "matplotlib==3.10",
+#     "numpy==2.3",
+#     "tqdm==4.67",
 # ]
 # ///
 import ast
@@ -112,10 +112,7 @@ def animate_bricks(
         repeat=True,
     )
 
-    if filename:
-        anim.save(filename, fps=30, dpi=1200, extra_args=["-vcodec", "libx264"])
-    else:
-        plt.show()
+    anim.save(filename, fps=30, dpi=1200, extra_args=["-vcodec", "libx264"])
 
 
 def main():
@@ -123,7 +120,7 @@ def main():
 
     if len(argv) < 2:
         print(
-            f"Usage: {argv[1]} sequence_file [filename.mp4] [step=100]",
+            f"Usage: {argv[0]} <sequence_file> [filename=anim.mp4] [step=100]",
             "Note: create a sequence file with 2023.22 -v",
             sep="\n",
         )
@@ -133,7 +130,7 @@ def main():
             argv[1],
             step=int(argv[3]) if len(argv) > 3 else 100,
         ),
-        argv[2] if len(argv) > 2 else "",
+        argv[2] if len(argv) > 2 else "anim.mp4",
     )
 
 
