@@ -1,4 +1,4 @@
-import webbrowser
+from itertools import cycle
 from pathlib import Path
 from sys import argv
 
@@ -68,24 +68,39 @@ def p2d_sets_string(
     return "\n".join(block)
 
 
-def make_polygon_svg(verts: list[P2D], sz: int = 800, file: Path | None = None):
-    ri, rj = tuple_ranges(verts)
-    _min = min(ri.start, rj.start) - 1e6
-    _max = max(ri.stop, rj.stop) - _min + 1e6
-    v_string = " ".join(
-        f"{sz * (j - _min) / _max},{(sz * (i - _min) / _max)}" for i, j in verts
-    )
-    svg = " ".join(
+def make_polygon_svg(*verts: list[P2D], sz: int = 800, file: Path | None = None):
+    colors = ["#C50F1F", "#13A10E99", "#F9F1A533"]
+    stroke = "#F9F1A5"
+    all_verts = (v for polygon in verts for v in polygon)
+    ri, rj = tuple_ranges(all_verts)
+    _min_i, _max_i = ri.start, ri.stop
+    _min_j, _max_j = rj.start, rj.stop
+    range_i = _max_i - _min_i
+    range_j = _max_j - _min_j
+    scale = 0.9 * sz / max(range_i, range_j)
+    offset_i = (_max_i + _min_i) / 2
+    offset_j = (_max_j + _min_j) / 2
+
+    svg = "\n".join(
         (
-            '<svg xmlns="http://www.w3.org/2000/svg"',
-            f'width="{sz}" height="{sz}"',
-            'style="background-color:#0C0C0C">',
-            f'<polygon points="{v_string}"',
-            'fill="#C50F1F" stroke="#F9F1A5" stroke-width="0.5"/>',
+            f'<svg xmlns="http://www.w3.org/2000/svg" width="{sz}" height="{sz}" style="background-color:#0C0C0C">',
+            *(
+                "\n".join(
+                    (
+                        '<polygon points="',
+                        *(
+                            f"{sz / 2 + scale * (j - offset_j)},{sz / 2 - scale * (i - offset_i)}"
+                            for i, j in polygon
+                        ),
+                        f'" fill="{color}" stroke="{stroke}" stroke-width="0.5"/>',
+                    )
+                )
+                for polygon, color in zip(verts, cycle(colors))
+            ),
             "</svg>",
         )
     )
     svg_file = file or Path("polygon.svg")
     with open(svg_file, "w") as f:
         f.write(svg)
-    webbrowser.open(str(svg_file.absolute()), new=1)
+    print(svg_file)
