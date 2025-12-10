@@ -1,6 +1,7 @@
 """--- Day 5: Cafeteria ---"""
 
 from pathlib import Path
+
 from common import do_part_on_input
 
 
@@ -30,7 +31,7 @@ def total_good_ingredients(filename: str) -> int:
 
 
 def merge_ranges(ranges: list[range]) -> list[range]:
-    merged_ranges = []
+    merged_ranges: list[range] = []
     for i, r in enumerate(ranges):
         if i == 0 or r.start > merged_ranges[-1].stop:
             merged_ranges.append(r)

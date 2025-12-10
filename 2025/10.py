@@ -3,7 +3,7 @@
 from collections import deque as DQ
 from dataclasses import dataclass
 
-from common import lines, do_part_on_input, logger
+from common import do_part_on_input, lines, logger
 
 
 @dataclass

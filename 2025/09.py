@@ -5,8 +5,8 @@ from pathlib import Path
 from typing import TypeAlias
 
 from common import do_part_on_input, logger
-from common.visuals import make_polygon_svg, p2d_sets_string
 from common.maths import P2D
+from common.visuals import make_polygon_svg, p2d_sets_string
 
 Edge: TypeAlias = tuple[P2D, P2D]
 

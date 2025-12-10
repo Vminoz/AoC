@@ -1,8 +1,8 @@
 """--- Day 8: Playground ---"""
 
-from math import sqrt, prod
+from math import prod, sqrt
 
-from common import P3D, lines, do_part_on_input, logger
+from common import P3D, do_part_on_input, lines, logger
 from common.input_parsing import USE_SMALL_FILE
 
 
