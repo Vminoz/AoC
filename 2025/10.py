@@ -4,6 +4,7 @@ from collections import deque as DQ
 from dataclasses import dataclass
 
 from common import do_part_on_input, lines, logger
+from common.linalg import LinearSystem
 
 
 @dataclass
@@ -66,10 +67,19 @@ class Machine:
                     q.append((nv, c + 1, p + [i]))
         raise ValueError("Target unreachable?")
 
-    def get_button_vectors(self) -> list[tuple[int, ...]]:
-        return [
-            tuple((b >> i) & 1 for i in range(len(self.joltage))) for b in self.buttons
-        ]
+    @property
+    def button_matrix(self) -> list[list[int]]:
+        return [[(b >> i) & 1 for b in self.buttons] for i in range(len(self.joltage))]
+
+    def get_presses_to_joltage(self) -> tuple[int, tuple[int, ...]]:
+        """
+        Solves Ax = b where A is the button matrix, b is the joltage vector,
+        and x is the number of presses per button.
+        """
+        a = self.button_matrix
+        b = list(self.joltage)
+        x = LinearSystem(a, b).solve()
+        return sum(x), x
 
 
 def part1(filename: str) -> int:
@@ -80,9 +90,18 @@ def part1(filename: str) -> int:
     return res
 
 
+def part2(filename: str) -> int:
+    res = 0
+    for i, line in enumerate(lines(filename), start=1):
+        np, presses = Machine.from_string(line).get_presses_to_joltage()
+        res += np
+        logger.v(np, presses, f"{i}: {line}", sep="\t")
+    return res
+
+
 def main():
     do_part_on_input(1, part1)
-    # do_part_on_input(2, ???)
+    do_part_on_input(2, part2)
 
 
 if __name__ == "__main__":
