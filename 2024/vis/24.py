@@ -1,7 +1,7 @@
 # /// script
 # requires-python = ">=3.12"
 # dependencies = [
-#     "graphviz",
+#     "graphviz==0.21",
 # ]
 # ///
 """Visual --- Day 24: Crossed Wires ---"""

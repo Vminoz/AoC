@@ -1,0 +1,15 @@
+aaa: you hhh fft
+you: bbb ccc
+bbb: ddd eee
+ccc: ddd eee fff
+ddd: ggg
+eee: out
+fff: out
+ggg: out
+hhh: ccc fff iii dac
+iii: out
+dac: iii
+svr: aaa fft bbb
+fft: ooo kkk hhh iii
+kkk: dac iii
+ooo: kkk
