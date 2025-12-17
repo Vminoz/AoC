@@ -33,6 +33,15 @@ class Shape:
 
     @property
     @cache
+    def anchor_offset(self) -> int:
+        return next(
+            j
+            for j in range(max(j for _, j in self.points) + 1)
+            if (0, j) in self.points
+        )
+
+    @property
+    @cache
     def size(self) -> P2D:
         return (max(i for i, _ in self.points) + 1, max(j for _, j in self.points) + 1)
 
@@ -55,7 +64,8 @@ class Shape:
         return self.from_points([(j, -i) for i, j in self.points])
 
     @cache
-    def get_orientations(self) -> "set[Shape]":
+    def get_orientations(self) -> "list[Shape]":
+        """Return all orientations ordered by how grouped the points are around 0,0"""
         same = self.from_points(self.points)
         unique_forms: set[Shape] = {same}
         # Flipped
@@ -72,7 +82,7 @@ class Shape:
         if logger.is_verbose:
             self._log_forms(unique_forms)
 
-        return unique_forms
+        return sorted(unique_forms, key=lambda x: sum(sum(p) for p in x.points))
 
     @staticmethod
     def _log_forms(forms: "Iterable[Shape]"):
@@ -100,10 +110,10 @@ class Region:
         self.i_range = range(i_max)
         self.j_range = range(j_max)
 
-        self.occupied: set[P2D] = set()
+        self.free: set[P2D] = {(i, j) for j in self.j_range for i in self.i_range}
         self.shape_at: dict[P2D, int] = {}
         self.shapes: list[Shape] = []
-        self.shape_orientations: list[set[Shape]] = []
+        self.shape_orientations: list[list[Shape]] = []
         self.to_place: list[int] = []
         self._wont_fit: bool = False
 
@@ -131,7 +141,7 @@ class Region:
             self.to_place.extend([i] * count)
 
         # Reset state
-        self.occupied.clear()
+        self.free = {(i, j) for j in self.j_range for i in self.i_range}
         self.shape_at.clear()
         minimum_area = sum(len(shapes[i].points) for i in self.to_place)
         self._wont_fit = self.area < minimum_area
@@ -152,32 +162,31 @@ class Region:
         shape_idx = self.to_place[idx_to_place]
         orientations = self.shape_orientations[shape_idx]
 
-        for i in self.i_range:
-            for j in self.j_range:
-                for shape in orientations:
-                    # Check if shape fits if anchored at (i, j)
-                    points_to_occupy = set()
-                    can_place = True
-                    for di, dj in shape.points:
-                        p = (i + di, j + dj)
-                        if p not in self or p in self.occupied:
-                            can_place = False
-                            break
-                        points_to_occupy.add(p)
+        for shape in orientations:
+            for i, j in sorted(self.free):
+                # Check if shape fits if anchored at (i, j)
+                points_to_occupy = set()
+                can_place = True
+                for di, dj in shape.points:
+                    p = (i + di, j + dj - shape.anchor_offset)
+                    if p not in self.free:
+                        can_place = False
+                        break
+                    points_to_occupy.add(p)
 
-                    if can_place:
-                        # Place and recurse
-                        self.occupied |= points_to_occupy
-                        if logger.is_debug:
-                            logger.m(self.pretty_str(points_to_occupy))
+                if can_place:
+                    # Place and recurse
+                    self.free -= points_to_occupy
+                    if logger.is_debug:
+                        logger.m(self.pretty_str(points_to_occupy))
 
-                        # Recurse for the next shape in the list
-                        if self._fit_backtrack(idx_to_place + 1):
-                            self.shape_at |= {p: shape_idx for p in points_to_occupy}
-                            return True
+                    # Recurse for the next shape in the list
+                    if self._fit_backtrack(idx_to_place + 1):
+                        self.shape_at |= {p: shape_idx for p in points_to_occupy}
+                        return True
 
-                        # Backtrack (undo placement)
-                        self.occupied -= points_to_occupy
+                    # Backtrack (undo placement)
+                    self.free |= points_to_occupy
         return False
 
     def pretty_str(self, highlights: Container[P2D] = ()) -> str:
@@ -198,7 +207,7 @@ class Region:
                         color = bright_colors[shape_idx % len(bright_colors)]
                         c = f"{color}{shape_idx}{rst}"
                 else:
-                    if (i, j) in self.occupied:
+                    if (i, j) not in self.free:
                         color_idx = 2 if (i, j) in highlights else 0
                         c = f"{bright_colors[color_idx]}█{rst}"
                 line += c
