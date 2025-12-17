@@ -103,4 +103,3 @@ def make_polygon_svg(*verts: list[P2D], sz: int = 800, file: Path | None = None)
     svg_file = file or Path("polygon.svg")
     with open(svg_file, "w") as f:
         f.write(svg)
-    print(svg_file)

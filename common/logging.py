@@ -1,7 +1,7 @@
 import sys
 from pathlib import Path
 from sys import argv
-from time import perf_counter
+from time import perf_counter, sleep
 from typing import Callable, Literal, TypeAlias, cast
 
 from .ansi import (
@@ -31,19 +31,21 @@ class TheLogger:
     def __new__(cls):
         if cls._instance is None:
             cls._instance = super(TheLogger, cls).__new__(cls)
-
-            # options
-            cls._instance._level = 1
-            cls._instance._rich = True
-            cls._instance._timestamp_lv = 1
-            cls._instance._clear_on_message = False
-            cls._instance._wait_on_message = False
-
-            # state
-            cls._latest_was_message = False
-
-            cls._instance.lap()
         return cls._instance
+
+    def __init__(self) -> None:
+        # Options
+        self.clear_on_message = False
+        self.wait_on_message = False
+        self.rich = True
+
+        # State
+        self._message_time = 0.0
+        self._latest_was_message = False
+        self._level = 1
+        self._timestamp_level = 1
+
+        self.lap()
 
     @property
     def is_verbose(self) -> bool:
@@ -62,37 +64,12 @@ class TheLogger:
         self._level = self.valid_level(value)
 
     @property
-    def rich(self) -> bool:
-        """Note: Only applies to leveled logs"""
-        return self._rich
-
-    @rich.setter
-    def rich(self, value: bool):
-        self._rich = value
-
-    @property
-    def clear_on_message(self) -> bool:
-        return self._clear_on_message
-
-    @clear_on_message.setter
-    def clear_on_message(self, value: bool):
-        self._clear_on_message = value
-
-    @property
-    def wait_on_message(self) -> bool:
-        return self._wait_on_message
-
-    @wait_on_message.setter
-    def wait_on_message(self, value: bool):
-        self._wait_on_message = value
-
-    @property
     def timestamp_lv(self) -> int:
-        return self._timestamp_lv
+        return self._timestamp_level
 
     @timestamp_lv.setter
     def timestamp_lv(self, value: str | int):
-        self._timestamp_lv = int(value)
+        self._timestamp_level = self.valid_level(value)
 
     @staticmethod
     def valid_level(value: str | int) -> int:
@@ -116,7 +93,10 @@ class TheLogger:
             self._latest_was_message = True
         if ts:
             self.log_time()
+        # Ensure at least 33ms has passed
+        sleep(max(0, 0.03 + self._message_time - perf_counter()))
         print(Ansi.fmt(message, [RED], [BRIGHT_YELLOW]), end=end)
+        self._message_time = perf_counter()
         if self.wait_on_message:
             inp = input(
                 Ansi.fmt(
@@ -219,13 +199,13 @@ class TheLogger:
 
     @classmethod
     def from_argv(cls):
-        logger_instance = cls()
-        logger_instance.rich = "-r" not in argv
-        logger_instance.timestamp_lv = cls.timestamp_lv_from_argv()
-        logger_instance.level = cls.get_level_from_argv()
-        logger_instance.clear_on_message = "-c" in argv
-        logger_instance.wait_on_message = "-I" in argv
-        return logger_instance
+        instance = cls()
+        instance.rich = "-r" not in argv
+        instance.timestamp_lv = cls.timestamp_lv_from_argv()
+        instance.level = cls.get_level_from_argv()
+        instance.clear_on_message = "-c" in argv
+        instance.wait_on_message = "-I" in argv
+        return instance
 
     def _one_of_each(self):
         self.i("This is an info message.")
