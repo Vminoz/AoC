@@ -10,28 +10,31 @@ def sum_invalid_ids(filename: str, extras: bool = False) -> int:
     res = 0
     for r in ranges:
         st, ed = (int(e) for e in r.split("-", 1))
-        for i in range(st, ed + 1):
-            s = str(i)
-            sl = len(s)
-            mid = sl // 2
-            if mid == 0 or (not extras and sl % 2):
+        ids_in_range = set()
+
+        digits_range = range(len(str(st)), len(str(ed)) + 1)
+        # Logarithms? Never hear of him
+        for digits in digits_range:
+            if digits == 0 or (not extras and digits % 2):
                 continue
-            to_check = range(mid, 0, -1) if extras else (mid,)
+
+            mid = digits // 2
+            to_check = (
+                [split for split in range(1, mid + 1) if digits % split == 0]
+                if extras
+                else [mid]
+            )
+
             for j in to_check:
-                if sl % j:
-                    continue
-                ref = s[:j]
-                same = True
-                for k in range(j, sl, j):
-                    buf = s[k : k + j]
-                    same = buf == ref
-                    if not same:
-                        break
-                logger.d(r, s, j, same)
-                if same:
-                    res += i
-                    logger.d(r, j, ref, res, s)
-                    break
+                repeats = digits // j
+                for pattern in range(10 ** (j - 1), 10**j):
+                    id_ = str(pattern) * repeats
+                    id_val = int(id_)
+                    if st <= id_val <= ed:
+                        logger.d(r, j, id_val)
+                        ids_in_range.add(id_val)
+
+        res += sum(ids_in_range)
 
     return res
 
